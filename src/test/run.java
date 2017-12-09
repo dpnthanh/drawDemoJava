@@ -3,19 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package drawdemo;
+package test;
+
+import com.sun.org.apache.xerces.internal.util.DOMUtil;
 
 /**
  *
  * @author stephen
  */
-public class DrawDemo {
-
-    /**
-     * @param args the command line arguments
-     */
+public class run {
     public static void main(String[] args) {
-        // TODO code application logic here
+        new window().setVisible(true);
+        
     }
-    
 }
