@@ -323,7 +323,9 @@ public class Paint extends javax.swing.JFrame implements MouseListener, MouseMot
 
     @Override
     public void mouseDragged(MouseEvent me) {
-        
+        shapePositionX = me.getX() - Math.round(shapeWidth/2);
+        shapePositionY = me.getY() - 31 - Math.round(shapeLenght/2);
+        draw(shapeType, shapePositionX, shapePositionY, shapeWidth, shapeLenght, shapeColor, shapeFill);
     }
 
     @Override
