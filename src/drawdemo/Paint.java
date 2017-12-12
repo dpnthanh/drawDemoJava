@@ -16,13 +16,16 @@ import javax.swing.JColorChooser;
  *
  * @author stephen
  */
-public class Paint extends javax.swing.JFrame implements MouseListener, MouseMotionListener{
+public class Paint extends javax.swing.JFrame implements MouseListener, MouseMotionListener {
 
     /**
      * Creates new form Paint
      */
     public Paint() {
         initComponents();
+        // add mouse event
+        draw = new Drawer(panelDraw);
+        draw.setSize(width, length);//set default size
         addMouseListener(this);
         addMouseMotionListener(this);
     }
@@ -84,7 +87,7 @@ public class Paint extends javax.swing.JFrame implements MouseListener, MouseMot
             }
         });
 
-        edtShapeSizeWidth.setText("10");
+        edtShapeSizeWidth.setText("50");
         edtShapeSizeWidth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtShapeSizeWidthActionPerformed(evt);
@@ -98,7 +101,7 @@ public class Paint extends javax.swing.JFrame implements MouseListener, MouseMot
             }
         });
 
-        edtShapeSizeLenght.setText("10");
+        edtShapeSizeLenght.setText("50");
         edtShapeSizeLenght.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtShapeSizeLenghtActionPerformed(evt);
@@ -180,37 +183,44 @@ public class Paint extends javax.swing.JFrame implements MouseListener, MouseMot
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnShapeRectangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShapeRectangleActionPerformed
-        // TODO add your handling code here:
+        //change shape type to rectangle 
         shapeType = "rectangle";
+        drawShape(shapeFill);
+
     }//GEN-LAST:event_btnShapeRectangleActionPerformed
 
     private void btnShapeCircleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShapeCircleActionPerformed
-        // TODO add your handling code here:
-        shapeType = "circle";
+        //change shape type to circle
+        shapeType = "oval";
+
     }//GEN-LAST:event_btnShapeCircleActionPerformed
 
     private void cbxShapeFillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxShapeFillActionPerformed
-        // TODO add your handling code here:
+        //turn on shape fill if checkbox is selected
         shapeFill = cbxShapeFill.isSelected();
     }//GEN-LAST:event_cbxShapeFillActionPerformed
 
     private void edtShapeSizeWidthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtShapeSizeWidthActionPerformed
-        // TODO add your handling code here:
-        shapeWidth = Integer.parseInt(edtShapeSizeWidth.getText().toString().trim());
+        //get with shape in ui
+        width = Integer.parseInt(edtShapeSizeWidth.getText().toString().trim());
+        draw.setWidth(width);
     }//GEN-LAST:event_edtShapeSizeWidthActionPerformed
 
     private void btnShapeColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShapeColorActionPerformed
-        // TODO add your handling code here:
-        shapeColor = JColorChooser.showDialog(this, "choose color", shapeColor);
+        //show dialog choose color and choose color
+        shapeColor = JColorChooser.showDialog(this, "change color", shapeColor);
+        draw.setColor(shapeColor);
     }//GEN-LAST:event_btnShapeColorActionPerformed
 
     private void edtShapeSizeLenghtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtShapeSizeLenghtActionPerformed
-        // TODO add your handling code here:\
-        shapeLenght = Integer.parseInt(edtShapeSizeLenght.getText().toString().trim());
+        //get shape lenght in ui
+        
+        length = Integer.parseInt(edtShapeSizeLenght.getText().toString().trim());
+        draw.setLenght(length);
     }//GEN-LAST:event_edtShapeSizeLenghtActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        // TODO add your handling code here:
+        //clear all shape int ui
         repaint();
     }//GEN-LAST:event_btnClearActionPerformed
 
@@ -248,25 +258,33 @@ public class Paint extends javax.swing.JFrame implements MouseListener, MouseMot
             }
         });
     }
-    public void draw(String Type, int PositionX, int PositionY, int Width, int Lenght, Color Clr, boolean fill){
-        //create graphic
-        Graphics graphic = panelDraw.getGraphics();
-        //set color for shape
-        graphic.setColor(Clr);
-        switch(Type){
+
+    Drawer draw;
+    private String shapeType = "rectangle";
+    private Color shapeColor = Color.BLACK;
+    private int positionX = 0;
+    private int positionY = 0;
+    private int width = 50;
+    private int length = 50;
+    private boolean shapeFill = false;
+    
+    int idx = 0;
+
+    private void drawShape(boolean fill) {
+        switch(shapeType) {
             case "rectangle":
                 if(fill){
-                    graphic.fillRect(PositionX, PositionY, Width, Lenght);
-                } else {
-                    graphic.drawRect(PositionX, PositionY, Width, Lenght);
+                    draw.addShape(ShapeMaker.createRectangle(50*idx, 50*idx, 50, 50, Color.BLUE));
+                    draw.draw();
+                    idx++;
                 }
                 break;
-            case "circle":
+            case "oval":
                 if(fill){
-                    graphic.fillOval(PositionX, PositionY, Width, Lenght);
-                } else {
-                    graphic.drawOval(PositionX, PositionY, Width, Lenght);
+                    draw.fillOval();
+                    break;
                 }
+                draw.drawOval();
                 break;
         }
     }
@@ -285,51 +303,42 @@ public class Paint extends javax.swing.JFrame implements MouseListener, MouseMot
     private javax.swing.JPanel panelDraw;
     // End of variables declaration//GEN-END:variables
 
-    String shapeType = "rectangle";
-    Color shapeColor = Color.BLACK;
-    int shapePositionX = 0;
-    int shapePositionY = 0;
-    int shapeWidth = 10;
-    int shapeLenght = 10;
-    boolean shapeFill = false;
-    
     @Override
     public void mouseClicked(MouseEvent me) {
-        //get potion mouse
-        shapePositionX = me.getX() - Math.round(shapeWidth/2);
-        shapePositionY = me.getY() - 31 - Math.round(shapeLenght/2);
-        draw(shapeType, shapePositionX, shapePositionY, shapeWidth, shapeLenght, shapeColor, shapeFill);
+        positionX = me.getX() - width / 2;
+        positionY = me.getY() - length / 2 - 30;
+        draw.setPosition(positionX, positionY);
+        drawShape(shapeFill);
     }
 
     @Override
     public void mousePressed(MouseEvent me) {
-        
+
     }
 
     @Override
     public void mouseReleased(MouseEvent me) {
-        
+
     }
 
     @Override
     public void mouseEntered(MouseEvent me) {
-        
+
     }
 
     @Override
     public void mouseExited(MouseEvent me) {
-        
+
     }
 
     @Override
     public void mouseDragged(MouseEvent me) {
-        shapePositionX = me.getX() - Math.round(shapeWidth/2);
-        shapePositionY = me.getY() - 31 - Math.round(shapeLenght/2);
-        draw(shapeType, shapePositionX, shapePositionY, shapeWidth, shapeLenght, shapeColor, shapeFill);
+
     }
 
     @Override
     public void mouseMoved(MouseEvent me) {
-        
+
     }
+
 }

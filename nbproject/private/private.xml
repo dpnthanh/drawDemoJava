@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/stephen/NetBeansProjects/drawDemo/src/drawdemo/window.java</file>
-            <file>file:/home/stephen/NetBeansProjects/drawDemo/src/drawdemo/run.java</file>
-            <file>file:/home/stephen/NetBeansProjects/drawDemo/src/drawdemo/MainFrame.java</file>
-            <file>file:/home/stephen/NetBeansProjects/drawDemo/src/drawdemo/PanelDraw.java</file>
+            <file>file:/home/stephen/NetBeansProjects/drawDemo/src/drawdemo/Rectangle.java</file>
+            <file>file:/home/stephen/NetBeansProjects/drawDemo/src/drawdemo/ShapeMaker.java</file>
+            <file>file:/home/stephen/NetBeansProjects/drawDemo/src/drawdemo/Drawer.java</file>
+            <file>file:/home/stephen/NetBeansProjects/drawDemo/src/drawdemo/Shape.java</file>
+            <file>file:/home/stephen/NetBeansProjects/drawDemo/src/drawdemo/Paint.java</file>
         </group>
     </open-files>
 </project-private>
